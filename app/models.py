@@ -31,7 +31,7 @@ class Item(models.Model):
     dependencia = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT)
     
     def __str__(self):
-        return self.nome 
+        return self.nome + ' [' + str(self.sipac) + ']' 
 
 @python_2_unicode_compatible
 class Aferidor(models.Model):

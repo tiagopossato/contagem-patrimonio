@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from jet import admin as jet_admin
 
+print(dir(jet_admin.admin))
 urlpatterns = [
+    url(r'^jet/', jet_admin.urls),  # Django JET URLS
     url(r'^', admin.site.urls),
 ]
