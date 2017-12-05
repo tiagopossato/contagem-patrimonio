@@ -13,13 +13,13 @@ class SetorAdmin(admin.ModelAdmin):
 
 class InventarioAdmin(admin.ModelAdmin):
     def setor_mod(self, obj):
-        if(obj.setor == None):
+        if(obj.setor == ""):
             return obj.item.dependencia.nome
         else:
             return obj.setor
 
-    readonly_fields = ('estado','obs','item','createdAt','updatedAt',)
-    list_display = ('item', 'estado','obs','setor_mod','aferidores',)
+    readonly_fields = ('estado','item','createdAt','updatedAt',)
+    list_display = ('item', 'estado','setor_mod','aferidores',)
     list_filter = ('estado','setor','aferidores',)
     ordering = ()
 

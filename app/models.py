@@ -57,7 +57,7 @@ class Inventario(models.Model):
         'Observacao', null=True, blank=True, max_length=255)
     item = models.ForeignKey(Item, to_field='sipac', unique=True, on_delete=models.PROTECT)
     # setor = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT)
-    setor = models.CharField('Setor encontrado', max_length=255)
+    setor = models.CharField('Setor encontrado', max_length=255, null=True, blank=True)
     
     # aferidores = models.ManyToManyField(Aferidor)
     aferidores = models.CharField('Aferidor', max_length=255)
