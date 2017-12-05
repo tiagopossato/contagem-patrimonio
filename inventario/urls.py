@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from jet import admin as jet_admin
+from django.conf.urls import include
 
-print(dir(jet_admin.admin))
 urlpatterns = [
-    url(r'^jet/', jet_admin.urls),  # Django JET URLS
+    # url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    # url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^', admin.site.urls),
 ]

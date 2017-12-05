@@ -8,11 +8,10 @@ import django
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, "")))
 os.environ["DJANGO_SETTINGS_MODULE"] = "inventario.settings"
 django.setup()
-
+from django.db import IntegrityError
 from app.models import Item, Inventario
 
 filename = 'todos-3.csv'
-
 with open(filename, 'rb') as ficheiro:
     reader = csv.reader(ficheiro, delimiter='|')
     
@@ -33,8 +32,18 @@ with open(filename, 'rb') as ficheiro:
                 print(linha)
                 print('Sipac: linha %d: %s' % (reader.line_num, e))
                 continue
-                
-            it = Inventario(estado=estado, obs=obs, item_id=sipac, setor=setor, aferidores=aferidores)
-            it.save()
+            try:
+                it = Inventario(estado=estado, obs=obs, item_id=sipac, setor=setor, aferidores=aferidores)
+                it.save()
+            except IntegrityError as e: 
+                if 'UNIQUE constraint' in e.message:
+                    id = Inventario.objects.get(item_id=sipac)
+                    if(id.estado==-1 and estado>-1):
+                        id.estado = estado
+                        id.obs=obs
+                        id.setor = setor
+                        id.aferidores = aferidores
+                        id.save()
+                        
         except Exception as e:
             print('ficheiro %s, linha %d: %s' % (filename, reader.line_num, e))

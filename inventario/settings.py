@@ -25,14 +25,15 @@ SECRET_KEY = 'e(uflo^^noj7(-+!x59^6vk%q=!52%c!)_-ln)p^&d2g_houqr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['inventario-tiagopossato.c9users.io']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'jet',
+    # 'jet.dashboard',
+    # 'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

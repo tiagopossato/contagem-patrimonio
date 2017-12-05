@@ -55,7 +55,7 @@ class Inventario(models.Model):
         'Estado do bem', default=-1, choices=ESTADO)
     obs = models.CharField(
         'Observacao', null=True, blank=True, max_length=255)
-    item = models.ForeignKey(Item, to_field='sipac', on_delete=models.PROTECT)
+    item = models.ForeignKey(Item, to_field='sipac', unique=True, on_delete=models.PROTECT)
     # setor = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT)
     setor = models.CharField('Setor encontrado', max_length=255)
     
