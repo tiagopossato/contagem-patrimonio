@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from app.tables import InventarioTable
 
-# Create your views here.
+def inventario(request):
+    invent = InventarioTable()
+    return render(request, "index.html", {'invent': invent})
