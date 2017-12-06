@@ -64,3 +64,6 @@ class Inventario(models.Model):
     
     def __str__(self):
         return self.item.nome
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("obs__icontains",)

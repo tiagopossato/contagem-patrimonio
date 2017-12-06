@@ -17,10 +17,9 @@ class InventarioAdmin(admin.ModelAdmin):
             return obj.item.dependencia.nome
         else:
             return obj.setor
-
     readonly_fields = ('estado','item','createdAt','updatedAt',)
-    list_display = ('item', 'estado','setor_mod','aferidores',)
-    list_filter = ('estado','setor','aferidores',)
+    list_display = ('item', 'estado','setor_mod','obs','aferidores',)
+    list_filter = ('estado','setor','aferidores','obs',)
     ordering = ()
 
 admin.site.register(Setor, SetorAdmin)

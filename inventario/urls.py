@@ -24,6 +24,7 @@ admin.autodiscover()
 urlpatterns = [
     # url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     # url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+    url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', admin.site.urls),
     url(r'^admin/', include(massadmin_urls)),
     url(r'^', inventario),
