@@ -35,26 +35,22 @@ class DependenciaSetor(models.Model):
     setor = models.ForeignKey(Setor, on_delete=models.PROTECT, null=True, blank=True)
     
     def __str__(self):
-        return self.nomeNovo + ", bloco " +str(self.bloco) + ", " +str(self.setor)
+        return self.nomeNovo + "("+self.nome+")" + ", bloco " +str(self.bloco) + ", " +str(self.setor)
     
     class Meta:
         # define combinacao unica
         unique_together = ('nomeNovo', 'setor')
         verbose_name = 'Dependencia de setor'
         verbose_name_plural = 'Dependencias'
+        ordering = ['nomeNovo']
         
 @python_2_unicode_compatible
 class Item(models.Model):
     nome = models.CharField('Nome', max_length=255)
     patrimonio = models.IntegerField('Patrimonio antigo', null=True, blank=True)
     sipac = models.IntegerField('Patrimonio novo', unique=True)
-    dependencia = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT)
+    dependencia = models.ForeignKey(DependenciaSetor, related_name='dependenciaOriginal', on_delete=models.PROTECT)
     
-    def __str__(self):
-        return self.nome
-
-@python_2_unicode_compatible
-class Inventario(models.Model):
     ESTADO = (
         (-1, 'Nao encontrado'),
         (1, 'Bom'),
@@ -66,10 +62,30 @@ class Inventario(models.Model):
         'Estado do bem', default=-1, choices=ESTADO)
     obs = models.CharField(
         'Observacao', null=True, blank=True, max_length=255)
-    item = models.OneToOneField(Item, to_field='sipac', on_delete=models.PROTECT)
-    dependencia = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT, null=True, blank=True)
+    dependenciaEncontrada = models.ForeignKey(DependenciaSetor, related_name='dependenciaEncontrada', on_delete=models.PROTECT, null=True, blank=True)
     setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
-    aferidores = models.CharField('Aferidor', max_length=255)
-
+    aferidores = models.CharField('Aferidor', max_length=255, null=True, blank=True)
+    
     def __str__(self):
-        return self.item.nome + ', ' + str(self.estado)+ ', ' + str(self.dependencia) + ', ' + str(self.aferidores)
+        return self.nome + ', ' + str(self.estado)
+
+# @python_2_unicode_compatible
+# class Inventario(models.Model):
+#     ESTADO = (
+#         (-1, 'Nao encontrado'),
+#         (1, 'Bom'),
+#         (2, 'Ocioso'),
+#         (3, 'Danificado'),
+#         (4, 'Sem condicoes de uso'),
+#     )
+#     estado = models.IntegerField(
+#         'Estado do bem', default=-1, choices=ESTADO)
+#     obs = models.CharField(
+#         'Observacao', null=True, blank=True, max_length=255)
+#     item = models.OneToOneField(Item, to_field='sipac', on_delete=models.PROTECT)
+#     dependencia = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT, null=True, blank=True)
+#     setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
+#     aferidores = models.CharField('Aferidor', max_length=255)
+
+#     def __str__(self):
+#         return self.item.nome + ', ' + str(self.estado)+ ', ' + str(self.dependencia) + ', ' + str(self.aferidores)

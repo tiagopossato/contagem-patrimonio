@@ -15,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from app.models import *
 
 filename = 'todos.csv'
-file = open("feitos-erro.csv","w")
+# file = open("feitos-erro.csv","w")
 with open(filename, 'rb') as ficheiro:
     reader = csv.reader(ficheiro, delimiter='|')
     
@@ -41,36 +41,27 @@ with open(filename, 'rb') as ficheiro:
             dependencia = None
             try:
                 dependencia = DependenciaSetor.objects.get(nome=setorTmp)
-                print(setorTmp)
-                print(dependencia.nome)
             except Exception as e:
-                if 'matching query does not exist' not in e.message:
+                if 'matching query does not exist' in e.message:
+                    dependencia = None
+                else:
                     print(linha)
                     print('DependenciaSetor: linha %d: %s' % (reader.line_num, e))
+                
 
             try:
-                it = Inventario(estado=estado, obs=obs, item_id=sipac, setorTmp=setorTmp, dependencia=dependencia, aferidores=aferidores)
-                # it.save()
-            except IntegrityError as e: 
-                if 'UNIQUE constraint' in e.message:
-                    id = Inventario.objects.get(item_id=sipac)
-                    print(id)
-                    # if(id.estado==1 and id.aferidores==""):
-                    #     # print(id)
-                    #     # id.estado = estado
-                    #     # id.obs = obs
-                    #     # id.setorTmp = setorTmp
-                    #     id.aferidores = aferidores
-                    #     # id.dependencia = dependencia
-                    #     id.save()
-                    # else:
-                    #     print(id)
-                    #     # print('Inventario: linha %d: %s' % (reader.line_num, e))
-                    #     file.write(str(linha))
-                    #     file.write("\n")
-                        
+                it = Item.objects.get(sipac=sipac)
+                it.estado = estado
+                it.obs = obs
+                it.setorTmp = setorTmp
+                it.aferidores = aferidores
+                it.dependenciaEncontrada = dependencia
+                it.save()
+            except ObjectDoesNotExist as e:
+                print(e.message)
+                
         except Exception as e:
             print('ficheiro %s, linha %d: %s' % (filename, reader.line_num, e))
-            file.write(str(linha))
-            file.write("\n")
-file.close()
+            # file.write(str(linha))
+            # file.write("\n")
+# file.close()

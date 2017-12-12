@@ -17,7 +17,6 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from app.views import inventario
 from massadmin import urls as massadmin_urls
 admin.autodiscover()
 
