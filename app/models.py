@@ -66,13 +66,10 @@ class Inventario(models.Model):
         'Estado do bem', default=-1, choices=ESTADO)
     obs = models.CharField(
         'Observacao', null=True, blank=True, max_length=255)
-    item = models.ForeignKey(Item, to_field='sipac', unique=True, on_delete=models.PROTECT)
+    item = models.OneToOneField(Item, to_field='sipac', on_delete=models.PROTECT)
     dependencia = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT, null=True, blank=True)
     setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
     aferidores = models.CharField('Aferidor', max_length=255)
-    
+
     def __str__(self):
         return self.item.nome + ', ' + str(self.estado)+ ', ' + str(self.dependencia) + ', ' + str(self.aferidores)
-    # @staticmethod
-    # def autocomplete_search_fields():
-    #     return ("obs__icontains",)

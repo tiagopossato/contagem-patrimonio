@@ -14,22 +14,8 @@ from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from app.models import *
 
-
-itens = Item.objects.all()
-
-for item in itens:
-    try:
-        inventario = Inventario.objects.get(item=item)
-    except ObjectDoesNotExist as e:
-        
-        it = Inventario(estado=-1, item=item)
-        it.save()
-exit()
-
-
-
 filename = 'todos.csv'
-# file = open("feitos-erro4.csv","w")
+file = open("feitos-erro.csv","w")
 with open(filename, 'rb') as ficheiro:
     reader = csv.reader(ficheiro, delimiter='|')
     
@@ -55,6 +41,8 @@ with open(filename, 'rb') as ficheiro:
             dependencia = None
             try:
                 dependencia = DependenciaSetor.objects.get(nome=setorTmp)
+                print(setorTmp)
+                print(dependencia.nome)
             except Exception as e:
                 if 'matching query does not exist' not in e.message:
                     print(linha)
@@ -62,7 +50,7 @@ with open(filename, 'rb') as ficheiro:
 
             try:
                 it = Inventario(estado=estado, obs=obs, item_id=sipac, setorTmp=setorTmp, dependencia=dependencia, aferidores=aferidores)
-                it.save()
+                # it.save()
             except IntegrityError as e: 
                 if 'UNIQUE constraint' in e.message:
                     id = Inventario.objects.get(item_id=sipac)
@@ -83,6 +71,6 @@ with open(filename, 'rb') as ficheiro:
                         
         except Exception as e:
             print('ficheiro %s, linha %d: %s' % (filename, reader.line_num, e))
-            # file.write(str(linha))
-            # file.write("\n")
-# file.close()
+            file.write(str(linha))
+            file.write("\n")
+file.close()
