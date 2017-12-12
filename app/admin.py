@@ -29,14 +29,20 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
     ordering = ('bloco',)
     
 class InventarioAdmin(admin.ModelAdmin):
-    def setor_mod(self, obj):
-        if(obj.setor == ""):
+    def localizacao(self, obj):
+        if(obj.setorTmp == ""):
             return obj.item.dependencia.nome
         else:
-            return obj.setor
-    readonly_fields = ('estado','item','createdAt','updatedAt',)
-    list_display = ('item', 'estado','setor_mod','obs','aferidores',)
-    list_filter = ('estado','setor','aferidores','obs',)
+            return obj.dependencia
+    def bloco(self, obj):
+        if(obj.dependencia == None):
+            return "Sem Bloco"
+        else:
+            return obj.dependencia.bloco
+            
+    readonly_fields = ('item',)
+    list_display = ('item', 'item_id', 'estado','localizacao','bloco','obs','aferidores',)
+    list_filter = ('estado','dependencia','setorTmp','aferidores','dependencia__bloco','obs',)
     ordering = ()
 
 class ItemAdmin(admin.ModelAdmin):
