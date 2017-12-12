@@ -14,6 +14,7 @@ class Bloco(models.Model):
     class Meta:
         verbose_name = 'Bloco'
         verbose_name_plural = 'Blocos'
+        ordering = ['nome']
 
 @python_2_unicode_compatible
 class Setor(models.Model):
@@ -42,7 +43,7 @@ class DependenciaSetor(models.Model):
         unique_together = ('nomeNovo', 'setor')
         verbose_name = 'Dependencia de setor'
         verbose_name_plural = 'Dependencias'
-        ordering = ['nomeNovo']
+        ordering = ['bloco__nome']
         
 @python_2_unicode_compatible
 class Item(models.Model):

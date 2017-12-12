@@ -26,7 +26,7 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
     # inlines = (ItemInline,)
     list_display = ('nome', 'nomeNovo', 'setor','bloco',)
     list_filter = ('setor','bloco',)
-    ordering = ('bloco',)
+    # ordering = ('bloco',)
     
 # class InventarioAdmin(admin.ModelAdmin):
 #     # def localizacao(self, obj):
