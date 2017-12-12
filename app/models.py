@@ -4,24 +4,44 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from django.utils.timezone import now
 
+
 @python_2_unicode_compatible
-class Setor(models.Model):
-    nome = models.CharField('Setor', max_length=255, unique=True)
+class Bloco(models.Model):
+    nome = models.CharField('Bloco', max_length=255, unique=True)
     
     def __str__(self):
         return self.nome 
+    class Meta:
+        verbose_name = 'Bloco'
+        verbose_name_plural = 'Blocos'
+
+@python_2_unicode_compatible
+class Setor(models.Model):
+    nome = models.CharField('Setor / NOME ANTIGO', max_length=255, null=True, blank=True)
+    nomeNovo = models.CharField('Setor / NOME ATUAL', max_length=255, null=True, blank=True)
+    
+    def __str__(self):
+        return self.nomeNovo
+
+    class Meta:
+        verbose_name = 'Setor'
+        verbose_name_plural = 'Setores'
 
 @python_2_unicode_compatible
 class DependenciaSetor(models.Model):
-    nome = models.CharField('Dependencia de setor', max_length=255)
-    setor = models.ForeignKey(Setor, on_delete=models.PROTECT)
+    nome = models.CharField('Dependencia de setor / NOME ANTIGO', max_length=255, null=True, blank=True)
+    nomeNovo = models.CharField('Dependencia do Setor / NOME ATUAL', max_length=255)
+    bloco = models.ForeignKey(Bloco, on_delete=models.PROTECT, null=True, blank=True)
+    setor = models.ForeignKey(Setor, on_delete=models.PROTECT, null=True, blank=True)
     
     def __str__(self):
-        return self.nome
+        return self.nomeNovo + ", bloco " +str(self.bloco) + ", " +str(self.setor)
     
     class Meta:
         # define combinacao unica
-        unique_together = ('nome', 'setor')
+        unique_together = ('nomeNovo', 'setor')
+        verbose_name = 'Dependencia de setor'
+        verbose_name_plural = 'Dependencias'
         
 @python_2_unicode_compatible
 class Item(models.Model):
@@ -32,13 +52,6 @@ class Item(models.Model):
     
     def __str__(self):
         return self.nome + ' [' + str(self.sipac) + ']' 
-
-@python_2_unicode_compatible
-class Aferidor(models.Model):
-    nome = models.CharField('Nome', max_length=255)
-    
-    def __str__(self):
-        return self.nome 
 
 @python_2_unicode_compatible
 class Inventario(models.Model):
@@ -56,14 +69,12 @@ class Inventario(models.Model):
     obs = models.CharField(
         'Observacao', null=True, blank=True, max_length=255)
     item = models.ForeignKey(Item, to_field='sipac', unique=True, on_delete=models.PROTECT)
-    # setor = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT)
-    setor = models.CharField('Setor encontrado', max_length=255, null=True, blank=True)
-    
-    # aferidores = models.ManyToManyField(Aferidor)
+    setor = models.ForeignKey(DependenciaSetor, on_delete=models.PROTECT, null=True, blank=True)
+    setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
     aferidores = models.CharField('Aferidor', max_length=255)
     
     def __str__(self):
         return self.item.nome
-    @staticmethod
-    def autocomplete_search_fields():
-        return ("obs__icontains",)
+    # @staticmethod
+    # def autocomplete_search_fields():
+    #     return ("obs__icontains",)

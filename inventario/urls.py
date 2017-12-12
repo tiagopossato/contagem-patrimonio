@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', admin.site.urls),
     url(r'^admin/', include(massadmin_urls)),
-    url(r'^', inventario),
+    # url(r'^', inventario),
  ]
