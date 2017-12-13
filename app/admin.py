@@ -50,13 +50,16 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
 #     ordering = ()
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('nome','dependencia','dependenciaEncontrada','estado','aferidores',)
-    list_filter = ('dependencia','dependenciaEncontrada','estado','aferidores','dependenciaEncontrada__bloco','dependencia__bloco')
+    list_display = ('nome','sipac','dependencia','dependenciaEncontrada','estado','aferidores',)
+    list_filter = ('dependencia','dependenciaEncontrada','estado','aferidores','dependencia__bloco','dependenciaEncontrada__bloco')
     readonly_fields = ('nome','dependencia','patrimonio', 'sipac','estado',)
-    search_fields = ['setorTmp', 'sipac']#, 'nome','id', 'obs', 'patrimonio']
+    search_fields = ['sipac','aferidores']#, 'nome','id', 'obs', 'patrimonio']
+    list_per_page = 1000
 
 admin.site.register(Setor, SetorAdmin)
 admin.site.register(DependenciaSetor,DependenciaSetorAdmin)
 # admin.site.register(Inventario, InventarioAdmin)
 admin.site.register(Item,ItemAdmin)
 admin.site.register(Bloco)
+admin.site.site_header = 'Relatorio de Inventario'
+admin.site.site_title = 'IFC'

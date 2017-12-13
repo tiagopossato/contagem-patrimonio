@@ -36,7 +36,7 @@ class DependenciaSetor(models.Model):
     setor = models.ForeignKey(Setor, on_delete=models.PROTECT, null=True, blank=True)
     
     def __str__(self):
-        return self.nomeNovo + "("+self.nome+")" + ", bloco " +str(self.bloco) + ", " +str(self.setor)
+        return self.nomeNovo + "("+self.nome+")"
     
     class Meta:
         # define combinacao unica
@@ -68,7 +68,10 @@ class Item(models.Model):
     aferidores = models.CharField('Aferidor', max_length=255, null=True, blank=True)
     
     def __str__(self):
-        return self.nome + ', ' + str(self.estado)
+        return self.nome
+        
+    class Meta:
+        ordering = ['sipac']
 
 # @python_2_unicode_compatible
 # class Inventario(models.Model):
