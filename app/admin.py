@@ -50,8 +50,8 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
 #     ordering = ()
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'sipac','dependencia','dependenciaEncontrada','estado','setorTmp','obs','aferidores',)
-    list_filter = ('dependencia','dependenciaEncontrada','estado','setorTmp','aferidores','dependencia__bloco','obs',)
+    list_display = ('nome', 'sipac','dependencia','dependenciaEncontrada','estado','obs','aferidores',)
+    list_filter = ('dependencia','dependenciaEncontrada','estado','aferidores','dependencia__bloco','obs',)
     readonly_fields = ('nome','patrimonio', 'sipac','estado','dependencia',)
     search_fields = ['setorTmp', 'sipac']#, 'nome','id', 'obs', 'patrimonio']
 

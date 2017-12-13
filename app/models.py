@@ -64,7 +64,7 @@ class Item(models.Model):
     obs = models.CharField(
         'Observacao', null=True, blank=True, max_length=255)
     dependenciaEncontrada = models.ForeignKey(DependenciaSetor, related_name='dependenciaEncontrada', on_delete=models.PROTECT, null=True, blank=True)
-    setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
+    # setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
     aferidores = models.CharField('Aferidor', max_length=255, null=True, blank=True)
     
     def __str__(self):
