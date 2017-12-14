@@ -23,10 +23,16 @@ class SetorAdmin(admin.ModelAdmin):
 #     extra = 0
     
 class DependenciaSetorAdmin(admin.ModelAdmin):
+    def quantidadeItensAntes(self, obj):
+        return int(Item.objects.filter(dependencia = obj).count())
+        
+    def quantidadeItensEncontrados(self, obj):
+        return int(Item.objects.filter(dependenciaEncontrada = obj).count())
     # inlines = (ItemInline,)
-    list_display = ('nome', 'nomeNovo', 'setor','bloco',)
+    list_display = ('nome', 'nomeNovo', 'setor','bloco','quantidadeItensAntes','quantidadeItensEncontrados')
     list_filter = ('setor','bloco',)
-    # ordering = ('bloco',)
+    list_per_page = 400
+    # ordering = ('-quantidadeItens',)
     
 # class InventarioAdmin(admin.ModelAdmin):
 #     # def localizacao(self, obj):
@@ -50,11 +56,13 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
 #     ordering = ()
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('nome','sipac','dependencia','dependenciaEncontrada','estado','aferidores',)
-    list_filter = ('dependencia','dependenciaEncontrada','estado','aferidores','dependencia__bloco','dependenciaEncontrada__bloco')
-    readonly_fields = ('nome','dependencia','patrimonio', 'sipac','estado',)
-    search_fields = ['sipac','aferidores']#, 'nome','id', 'obs', 'patrimonio']
-    list_per_page = 1000
+    list_display = ('nome','sipac','dependencia','estado','aferidores',)
+    # list_filter = ('dependencia','dependenciaEncontrada','estado','aferidores','dependencia__bloco','dependenciaEncontrada__bloco')
+    readonly_fields = ('nome','dependencia','patrimonio', 'sipac',)
+    list_filter = ('dependenciaEncontrada','dependenciaEncontrada__bloco','estado','aferidores','dependencia','dependencia__bloco',)
+    # search_fields = ['sipac','aferidores']#, 'nome','id', 'obs', 'patrimonio']
+    list_per_page = 8000
+    ordering = ('dependenciaEncontrada__bloco__nome','patrimonio',)
 
 admin.site.register(Setor, SetorAdmin)
 admin.site.register(DependenciaSetor,DependenciaSetorAdmin)

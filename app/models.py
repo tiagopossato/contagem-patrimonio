@@ -14,7 +14,7 @@ class Bloco(models.Model):
     class Meta:
         verbose_name = 'Bloco'
         verbose_name_plural = 'Blocos'
-        ordering = ['nome']
+        #ordering = ['nome']
 
 @python_2_unicode_compatible
 class Setor(models.Model):
@@ -36,14 +36,15 @@ class DependenciaSetor(models.Model):
     setor = models.ForeignKey(Setor, on_delete=models.PROTECT, null=True, blank=True)
     
     def __str__(self):
-        return self.nomeNovo + "("+self.nome+")"
+        # return self.nomeNovo + "("+self.nome+"), bloco " + str(self.bloco.nome)
+        return self.nomeNovo + ", bloco " + str(self.bloco.nome)
     
     class Meta:
         # define combinacao unica
         unique_together = ('nomeNovo', 'setor')
         verbose_name = 'Dependencia de setor'
         verbose_name_plural = 'Dependencias'
-        ordering = ['bloco__nome']
+        # ordering = ['bloco__nome']
         
 @python_2_unicode_compatible
 class Item(models.Model):
@@ -60,7 +61,7 @@ class Item(models.Model):
         (4, 'Sem condicoes de uso'),
     )
     estado = models.IntegerField(
-        'Estado do bem', default=-1, choices=ESTADO)
+        'Estado', default=-1, choices=ESTADO)
     obs = models.CharField(
         'Observacao', null=True, blank=True, max_length=255)
     dependenciaEncontrada = models.ForeignKey(DependenciaSetor, related_name='dependenciaEncontrada', on_delete=models.PROTECT, null=True, blank=True)
