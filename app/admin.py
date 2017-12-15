@@ -29,9 +29,9 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
     def quantidadeItensEncontrados(self, obj):
         return int(Item.objects.filter(dependenciaEncontrada = obj).count())
     # inlines = (ItemInline,)
-    list_display = ('nome', 'nomeNovo', 'setor','bloco','quantidadeItensAntes','quantidadeItensEncontrados')
+    list_display = ('bloco','setor','nomeNovo', 'nome','quantidadeItensAntes','quantidadeItensEncontrados')
     list_filter = ('setor','bloco',)
-    list_per_page = 400
+    list_per_page = 100
     # ordering = ('-quantidadeItens',)
     
 # class InventarioAdmin(admin.ModelAdmin):
@@ -56,13 +56,13 @@ class DependenciaSetorAdmin(admin.ModelAdmin):
 #     ordering = ()
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('nome','sipac','dependencia','estado','aferidores',)
+    list_display = ('nome','sipac','dependenciaEncontrada','estado','aferidores',)
     # list_filter = ('dependencia','dependenciaEncontrada','estado','aferidores','dependencia__bloco','dependenciaEncontrada__bloco')
     readonly_fields = ('nome','dependencia','patrimonio', 'sipac',)
     list_filter = ('dependenciaEncontrada','dependenciaEncontrada__bloco','estado','aferidores','dependencia','dependencia__bloco',)
     # search_fields = ['sipac','aferidores']#, 'nome','id', 'obs', 'patrimonio']
-    list_per_page = 8000
-    ordering = ('dependenciaEncontrada__bloco__nome','patrimonio',)
+    list_per_page = 50
+    ordering = ('-patrimonio',)
 
 admin.site.register(Setor, SetorAdmin)
 admin.site.register(DependenciaSetor,DependenciaSetorAdmin)
