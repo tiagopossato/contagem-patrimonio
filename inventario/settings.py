@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'e(uflo^^noj7(-+!x59^6vk%q=!52%c!)_-ln)p^&d2g_houqr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['inventario-tiagopossato.c9users.io']
+ALLOWED_HOSTS = ['inventario-tiagopossato.c9users.io', 'inventario.videira.ifc.edu.br']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
@@ -123,5 +123,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-# STATIC_ROOT = '/var/www/app/static'
+STATIC_ROOT = '/var/www/app/static'
 STATIC_URL = '/static/'
