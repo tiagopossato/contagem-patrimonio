@@ -1,0 +1,8 @@
+bin/
+include/
+lib/
+share/
+man/
+*.pyc
+inventario/settings.pyc
+inventario/__init__.pyc

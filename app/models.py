@@ -46,7 +46,7 @@ class DependenciaSetor(models.Model):
         verbose_name_plural = 'Dependencias'
         # ordering = ['bloco__nome']
         
-@python_2_unicode_compatible
+# @python_2_unicode_compatible
 class Item(models.Model):
     nome = models.CharField('Nome', max_length=255)
     patrimonio = models.IntegerField('Patrimonio antigo', null=True, blank=True)
@@ -68,8 +68,12 @@ class Item(models.Model):
     # setorTmp = models.CharField('Setor temporario', max_length=255, null=True, blank=True)
     aferidores = models.CharField('Aferidor', max_length=255, null=True, blank=True)
     
-    def __str__(self):
-        return self.nome
+    def __unicode__(self):
+        return (self.nome if self.nome else u'') + u',' + (unicode(self.patrimonio) if self.patrimonio else u'') + u',' + \
+                (unicode(self.sipac) if self.sipac else u'') + u',' + (self.dependencia.setor.nome if self.dependencia.setor else u'')  + u',' + \
+                (self.dependencia.nome if self.dependencia else u'') + u',' + (unicode(self.estado) if self.estado else u'') + u',' + \
+                (self.obs if self.obs else u'') + u',' + (self.dependenciaEncontrada.nome or if self.dependenciaEncontrada != None else u'') + u',' + \
+                (self.aferidores if self.aferidores else u'')
         
     class Meta:
         ordering = ['sipac']
